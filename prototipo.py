@@ -6,7 +6,7 @@ funcoes = ["automática", "vídeo", "panorâmica", "etc1", "etc2", "etc3"]
 funcoesUI = ["automática", "vídeo"]
 funcoesFavoritas = []
 
-funcaoAtual = ""
+funcaoAtual = funcoes[0]
 
 def _escolherFuncao():
     print("Selecione a função que deseja ver: ")
@@ -33,7 +33,7 @@ def _escolherFuncao():
 
     fav = _checarFavorito(funcaoEscolhida)
 
-    opcoesFuncoes = int(input("1- Favoritar Função \n2- Alterar função \n3- Favoritar e alterar para função \n0- Voltar \n\n"))
+    opcoesFuncoes = int(input("1- Favoritar Função \n2- Alterar função \n3- Favoritar e alterar para função \n4- Informação \n0- Voltar \n\n"))
     
     print("\n")
 
@@ -53,7 +53,7 @@ def _escolherFuncao():
                     print("Voltando")
 
         case 2:
-            funcaoAtual = funcaoEscolhida
+            _alterarFuncao(funcaoEscolhida)
             print(f"Alterou para a função {funcaoAtual}")
         case 3:
             if fav != True:
@@ -69,8 +69,10 @@ def _escolherFuncao():
                 else:
                     print("Continuando")
 
-            funcaoAtual = funcaoEscolhida
+            _alterarFuncao(funcaoEscolhida)
             print(f"Alterou para a função {funcaoAtual}")
+        case 4:
+            print(_info(funcaoAtual))
         case 0:
             print("Voltando")
     print("---------------------------------------------------")
@@ -84,22 +86,22 @@ def _escolherFuncaoUI():
     escolhaFuncoesUI = int(input())
     match escolhaFuncoesUI:
         case 1:
-            funcaoAtual = funcoesUI[escolhaFuncoesUI - 1]
+            _alterarFuncao(funcoesUI[escolhaFuncoesUI - 1])
             print(f"Alternado para função {funcaoAtual}")
         case 2:
-            funcaoAtual = funcoesUI[escolhaFuncoesUI - 1]
+            _alterarFuncao(funcoesUI[escolhaFuncoesUI - 1])
             print(f"Alternado para função {funcaoAtual}")
         case 3:
             if escolhaFuncoesUI >= len(funcoesUI):
-                funcaoAtual = funcoesUI[escolhaFuncoesUI - 1]
-                print(f"Alternado para função {funcaoAtual}")
+               _alterarFuncao(funcoesUI[escolhaFuncoesUI - 1])
+               print(f"Alternado para função {funcaoAtual}")
         case 4:
             if escolhaFuncoesUI >= len(funcoesUI):
-                funcaoAtual = funcoesUI[escolhaFuncoesUI - 1]
+                _alterarFuncao(funcoesUI[escolhaFuncoesUI - 1])
                 print(f"Alternado para função {funcaoAtual}")
         case 5:
             if escolhaFuncoesUI >= len(funcoesUI):
-                funcaoAtual = funcoesUI[escolhaFuncoesUI - 1]
+                _alterarFuncao(funcoesUI[escolhaFuncoesUI - 1])
                 print(f"Alternado para função {funcaoAtual}")
 
 def _checarFavorito(funcao):
@@ -109,10 +111,17 @@ def _checarFavorito(funcao):
             break
         else:
             return False
+        
+def _alterarFuncao(funcao):
+    global funcaoAtual
+    funcaoAtual = funcao
+
+def _info(funcao):
+    print(f"informação da função {funcao}")
 
 while rodando:
     print("O que deseja fazer?") 
-    escolha = int(input("1- Ver funções \n2- Tirar foto \n3- Alterar modo na UI \n4- Ver Favoritos \n9- Encerrar Programa \n\n"))
+    escolha = int(input("1- Ver funções \n2- Tirar foto \n3- Alterar entre funções na UI \n4- Ver Favoritos \n5- Informações da função atual \n9- Encerrar Programa \n\n"))
 
     print("---------------------------------------------------")
 
@@ -120,15 +129,23 @@ while rodando:
         case 1:
             _escolherFuncao()
         case 2:
-            print(f"Foto tirada no modo {funcaoAtual}")
-            print(funcaoAtual)
+            if (funcaoAtual != "vídeo"):
+                print(f"Foto tirada no modo {funcaoAtual}")
+            else:
+                print(f"Vídeo gravado.")
         case 3:
             _escolherFuncaoUI()
         case 4:
+            print("Funcões Favoritas:\n")
             if len(funcoesFavoritas) != 0:
-                print(funcoesFavoritas)
+                for fav in funcoesFavoritas:
+                    i = 1
+                    print(f"{i}- {fav}")
+                    i += 1
             else:
                 print("Não há funções favoritas.")
+        case 5:
+            print(_info(funcaoAtual))
         case 9:
             print("Encerrando...")
             rodando = False
