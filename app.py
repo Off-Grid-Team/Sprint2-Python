@@ -1,13 +1,13 @@
 # ----- Variáveis globais ----- #
 rodando = True
-funcaoAtual = ""
+funcaoAtual:str = ""
 
 # ----- Definição de Funções ----- #
 funcoes = []
 funcoesFavoritas = []
 
     #Método que cria funções da câmera com nome e descrição e as adiciona à lista de funções.
-def _criarFuncao(nome, descricao):
+def _criarFuncao(nome:str, descricao:str):
     numFuncoes = len(funcoes)
     funcao = [nome, descricao]
     funcoes.append(funcao)
@@ -22,7 +22,7 @@ funcoesUI = [funcoes[0], funcoes[1]]
 
 funcaoAtual = funcoes[0]
 
-def _alterarFuncao(funcao):
+def _alterarFuncao(funcao:list):
     global funcaoAtual
     funcaoAtual = funcao
     print(f"Alterando para a função {funcao[0]}")
@@ -30,7 +30,7 @@ def _alterarFuncao(funcao):
 
 # ----- Método para Favoritar Função ----- #
 
-def _favoritarFuncao(funcao):
+def _favoritarFuncao(funcao:list):
     global funcoesFavoritas
     
     i = 0
@@ -62,33 +62,40 @@ def _favoritarFuncao(funcao):
 def _menu():
     print("O que deseja fazer?")
     print(f"1- Ver Funções \n2- Tirar Foto \n3- Alterar entre funções na UI \n4- Ver Favoritos \n5- Ver Descrição da Função Atual \n0- Encerrar Programa")
-    escolha = int(input("Selecione sua opção: "))
-    return escolha
+    try:
+        escolha = int(input("Selecione sua opção: "))
+    except ValueError:
+        print("Entrada inválida! \nÉ aceito apenas números inteiros.")
+    else:
+        return int(escolha)
 
 # ----- Método do Menu de Funções ----- #
 
-def _menuFuncoes(funcao):
+def _menuFuncoes(funcao:list):
     print("--------------------------------------------------")
     print("O que deseja fazer em relação à função?")
     print(f"1- Alterar para a Função \n2- Favoritar a Função \n3- Favoritar e Alterar para a Função \n4- Ler Descrição da Função \n8- Voltar \n9- Voltar ao Menu Inicial")
-    escolha = int(input("Selecione sua opção: "))
-
-    match escolha:
-        case 1:
-            _alterarFuncao(funcao)
-        case 2:
-            _favoritarFuncao(funcao)
-        case 3:
-            _alterarFuncao(funcao)
-            _favoritarFuncao(funcao)
-        case 4:
-            print(funcao[1])
-        case 8:
-            _verFuncoes()
-        case 9:
-            return
-        case _:
-            print("Valor Inválido.")
+    try:
+        escolha = int(input("Selecione sua opção: "))
+    except ValueError:
+        print("Entrada inválida! \nÉ aceito apenas números inteiros.")
+    else:
+        match escolha:
+            case 1:
+                _alterarFuncao(funcao)
+            case 2:
+                _favoritarFuncao(funcao)
+            case 3:
+                _alterarFuncao(funcao)
+                _favoritarFuncao(funcao)
+            case 4:
+                print(funcao[1])
+            case 8:
+                _verFuncoes()
+            case 9:
+                return
+            case _:
+                print("Valor Inválido.")
 
 # ----- Método para Ver e Selecionar Funções ----- #
 
@@ -99,11 +106,17 @@ def _verFuncoes():
     for opcoes in funcoes:
         print(f"{funcoes.index(opcoes) + 1}- {opcoes[0]}")
     print(f"8- Voltar")
-    escolha = int(input("Selecione sua opção: "))
-
-    if escolha == 8:
-        return
-    _menuFuncoes(funcoes[escolha - 1])
+    try:
+        escolha = int(input("Selecione sua opção: "))
+    except ValueError:
+        print("Entrada inválida! \nÉ aceito apenas números inteiros.")
+    else:
+        if escolha == 8:
+            return
+        if 1<= escolha <= len(funcoes):
+            _menuFuncoes(funcoes[escolha - 1])
+        else:
+            print(f"Erro: Opção inválida! \nPor Gentileza escolha um número entre 1 e {len(funcoes)}, ou 8 para sair." )
 
 # ----- Método para Ver Funções Favoritas ----- #
 
@@ -113,13 +126,16 @@ def _verFavoritos():
     for opcoes in funcoesFavoritas:
         print(f"{funcoesFavoritas.index(opcoes) + 1}- {opcoes[0]}")
     print(f"8- Voltar")
-    escolha = int(input("Selecione sua opção: "))
+    try:
+        escolha = int(input("Selecione sua opção: "))
+    except ValueError:
+        print("Entrada inválida! \nÉ aceito apenas números inteiros.")
+    else:    
+        if len(funcoesFavoritas) == 0:
+            print("Não há Funções Favoritadas.")
 
-    if len(funcoesFavoritas) == 0:
-        print("Não há Funções Favoritadas.")
-
-    if escolha == 8:
-        return
+        if escolha == 8:
+            return
 
 # ----- Método para ver Funções na UI ----- #
 
@@ -130,11 +146,17 @@ def _verFuncoesUI():
     for opcoes in funcoesUI:
         print(f"{funcoesUI.index(opcoes) + 1}- {opcoes[0]}")
     print(f"8- Voltar")
-    escolha = int(input("Selecione sua opção: "))
-
-    if escolha == 8:
-        return
-    _alterarFuncao(funcoes[escolha - 1])
+    try:
+        escolha = int(input("Selecione sua opção: "))
+    except ValueError:
+        print("Entrada inválida! \nÉ aceito apenas números inteiros.")
+    else:
+        if escolha == 8:
+            return        
+        if 1<= escolha <= len(funcoes):
+             _alterarFuncao(funcoes[escolha - 1])
+        else:
+            print(f"Erro: Opção inválida! \nPor Gentileza escolha um número entre 1 e {len(funcoes)}, ou 8 para sair." )
 
 # ----- Método de Encerramento do Programa ----- #
 
@@ -159,6 +181,7 @@ def _tirarFoto():
 while rodando:
     print("--------------------------------------------------")
     escolhaMenu = _menu()
+
 
     match escolhaMenu:
         case 1:
