@@ -15,6 +15,7 @@ def _criarFuncao(nome:str, descricao:str):
 _criarFuncao("Automática", "Função padrão de foto.")
 _criarFuncao("Vídeo", "Segure o botão vermelho para iniciar a gravação.")
 _criarFuncao("Panorâmica", "Segure o botão de foto e mova o celular para criar uma foto esticada.")
+_criarFuncao("Ler Texto", "Aponte a câmera para qualquer texto e aperte o botão. O texto será transcrito digitalmente.")
 
 funcoesUI = [funcoes[0], funcoes[1]]
 
@@ -32,6 +33,7 @@ def _alterarFuncao(funcao:list):
 
 def _favoritarFuncao(funcao:list):
     global funcoesFavoritas
+    funcoesFavoritas = funcoesFavoritas
     
     i = 0
 
@@ -40,18 +42,20 @@ def _favoritarFuncao(funcao:list):
         return
 
     if len(funcoesFavoritas) > 0:
-        for funcoes in funcoesFavoritas:
-            i += 1
-            if funcoes[0] == funcao[0]:
+        for func in funcoesFavoritas:
+
+            if func[0] == funcao[0]:
                 escolha = int(input("Função já favoritada. Deseja remover dos Favoritos? \n1- Sim \n2- Não \nSelecione sua opção: "))
 
                 if escolha == 1:
                     funcoesFavoritas.pop(i)
                     funcoesUI.pop(i + 2)
-            else:
+            elif i == (len(funcoesFavoritas) - 1) and func[0] != funcao[0]:
                 funcoesFavoritas.append(funcao)
                 funcoesUI.append(funcao)
                 print(f"Favoritando a função {funcao[0]}")
+                break;
+            i += 1
     else:
         funcoesFavoritas.append(funcao)
         funcoesUI.append(funcao)
