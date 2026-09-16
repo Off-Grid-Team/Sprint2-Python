@@ -138,7 +138,7 @@ def _verFavoritos():
     print("--------------------------------------------------")
     
     for opcoes in funcoesFavoritas:
-        print(f"{funcoesFavoritas.index(opcoes) + 1}- {opcoes[0]}")
+        print(f"{funcoesFavoritas.index(opcoes) + 1}- {opcoes['nome']}")
     print(f"8- Voltar")
     try:
         escolha = int(input("Selecione sua opção: "))
@@ -158,7 +158,7 @@ def _verFuncoesUI():
     print("Selecione a opção na UI que deseja alterar: ")
 
     for opcoes in funcoesUI:
-        print(f"{funcoesUI.index(opcoes) + 1}- {opcoes[0]}")
+        print(f"{funcoesUI.index(opcoes) + 1}- {opcoes['nome']}")
     print(f"8- Voltar")
     try:
         escolha = int(input("Selecione sua opção: "))
