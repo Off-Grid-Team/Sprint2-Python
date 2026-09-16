@@ -41,35 +41,22 @@ def resposta_favorito():
     print(f"Favoritando a função escolhida")
 
 
-def _favoritarFuncao(funcao:list):
-    global funcoesFavoritas
-    funcoesFavoritas = funcoesFavoritas
-    
-    i = 0
+def _favoritarFuncao(funcao: dict):
     if funcao['nome'] in [funcoes[0]['nome'], funcoes[1]['nome']]:
-        
-        chamada = falar_usuario()
-        return chamada
+        falar_usuario()
+        return
 
-    if len(funcoesFavoritas) > 0:
-        for func in funcoesFavoritas:
+    if funcao in funcoesFavoritas:
+        opcao_escolhida = escolha()
+        if opcao_escolhida == 1:
+            funcoesFavoritas.remove(funcao)
+            if funcao in funcoesUI:
+                funcoesUI.remove(funcao)
+        return
 
-            if func['nome'] == funcao['nome']:
-                escolha()
-
-                if escolha == 1:
-                    funcoesFavoritas.pop(i)
-                    funcoesUI.pop(i + 2)
-            elif i == (len(funcoesFavoritas) - 1) and func['nome'] != funcao['nome']:
-                funcoesFavoritas.append(funcao)
-                funcoesUI.append(funcao)
-                resposta_favorito()
-                break
-            i += 1
-    else:
-        funcoesFavoritas.append(funcao)
-        funcoesUI.append(funcao)
-        resposta_favorito()
+    funcoesFavoritas.append(funcao)
+    funcoesUI.append(funcao)
+    resposta_favorito()
 
 # ----- Método do Menu Inicial ----- #
 
