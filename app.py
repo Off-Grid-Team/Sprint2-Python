@@ -26,7 +26,7 @@ funcaoAtual = funcoes[0]
 def _alterarFuncao(funcao:list):
     global funcaoAtual
     funcaoAtual = funcao
-    print(f"Alterando para a função {funcao[0]}")
+    print(f"Alterando para a função {funcao['nome']}")
    
 
 # ----- Método para Favoritar Função ----- #
@@ -54,13 +54,13 @@ def _favoritarFuncao(funcao:list):
     if len(funcoesFavoritas) > 0:
         for func in funcoesFavoritas:
 
-            if func[0] == funcao[0]:
+            if func['nome'] == funcao['nome']:
                 escolha()
 
                 if escolha == 1:
                     funcoesFavoritas.pop(i)
                     funcoesUI.pop(i + 2)
-            elif i == (len(funcoesFavoritas) - 1) and func[0] != funcao[0]:
+            elif i == (len(funcoesFavoritas) - 1) and func['nome'] != funcao['nome']:
                 funcoesFavoritas.append(funcao)
                 funcoesUI.append(funcao)
                 resposta_favorito()
@@ -103,7 +103,7 @@ def _menuFuncoes(funcao:list):
                 _alterarFuncao(funcao)
                 _favoritarFuncao(funcao)
             case 4:
-                print(funcao[1])
+                print(funcao['descricao'])
             case 8:
                 _verFuncoes()
             case 9:
@@ -185,8 +185,8 @@ def _encerrar():
 def _tirarFoto():
     global funcaoAtual
 
-    if funcaoAtual[0] != "Vídeo":
-        print(f"Foto tirada utilizando a função {funcaoAtual[0]}")
+    if funcaoAtual['nome'] != "Vídeo":
+        print(f"Foto tirada utilizando a função {funcaoAtual['nome']}")
     else:
         print(f"Vídeo gravado.")
 
@@ -208,7 +208,7 @@ while rodando:
             _verFavoritos()
         case 5:
             print("--------------------------------------------------")
-            print(funcaoAtual[1])
+            print(funcaoAtual['descricao'])
             escolha = input("8- Voltar \nSelecione sua opção: ")
         case 0:
             _encerrar()
