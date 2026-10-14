@@ -1,3 +1,5 @@
+import requests
+import json
 # ----- Variáveis globais ----- #
 rodando = True
 funcaoAtual:str = ""
@@ -6,17 +8,25 @@ funcaoAtual:str = ""
 funcoes = []
 funcoesFavoritas = []
 
-    #Método que cria funções da câmera com nome e descrição e as adiciona à lista de funções.
-def _criarFuncao(nova_funcao: dict[str, str]):
-    numFuncoes = len(funcoes)
-    funcao = [nova_funcao]
-    funcoes.append(nova_funcao)
+# ----- Uso da API ----- #
+response = requests.get(f'https://ricardosalmeron.github.io/API-Python/dicionario.json')
+try:
+    if response.status_code == 200:
+        #Método que cria funções da câmera com nome e descrição e as adiciona à lista de funções.
+        dados = response.json()
+        lista_modos = dados["modos_camera"]
+        def _criarFuncao(modos_camera):
+            if len(modos_camera) ==0:
+                return None
+            else:
+                nome_da_funcao = modos_camera[0]["nome"]
+                descricao_da_funcao = modos_camera[0]["descricao"]
+                funcoes.append({"nome":nome_da_funcao, "descricao":descricao_da_funcao})
+                return _criarFuncao(modos_camera[1:])
+        _criarFuncao(lista_modos)
 
-_criarFuncao({'nome': "Automática", 'descricao': "Função padrão de foto."})
-_criarFuncao({'nome': "Vídeo", 'descricao': "Segure o botão vermelho para iniciar a gravação."})
-_criarFuncao({'nome': "Panorâmica",'descricao': "Segure o botão de foto e mova o celular para criar uma foto esticada."})
-_criarFuncao({'nome': "Ler Texto",'descricao': "Aponte a câmera para qualquer texto e aperte o botão. O texto será transcrito digitalmente."})
-
+except requests.exceptions.ConnectionError :
+    print("Erro de conexão")
 funcoesUI = [funcoes[0], funcoes[1]]
 
 # ----- Método para Alterar Função ----- #
